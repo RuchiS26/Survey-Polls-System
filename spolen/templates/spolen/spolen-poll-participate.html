@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card shadow p-3 mb-5">
+					<div class="card-body">
+						<h2>{{poll.title}}</h2>
+						<hr>
+						<h4>{{poll.question}}</h4>
+						{% for option in options %}
+						<div class = "card">
+							<div class="card-body" style="max-width: 40%;">
+								<a href = "{% url 'spolen:spolen-polls-vote' poll.slug option.option %}">{{option.option}}</a>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

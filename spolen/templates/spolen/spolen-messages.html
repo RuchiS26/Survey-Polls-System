@@ -1,0 +1,28 @@
+<span class="badge badge-pill badge-warning" id="option-message">{{message}}</span>
+<script>
+        //When the page has loaded.
+        $( document ).ready(function(){
+            $('#option-message').fadeIn('slow', function(){
+               $('#option-message').delay(2000).fadeOut(); 
+
+               	if ($("select").val() == 2) {
+               	$("#gen").css("display","none");
+				$("#questionbtn").css("display","none");
+				$("#mcq").css("display", "block");
+				$("#optionsform").prop('required',true);	    
+		  	}
+            })
+        });
+
+        function AddOption(){
+			var option = $('#optionsform').val();
+			$.ajax({
+    			url:"{% url 'spolen:spolen-add-survey-question-options' survey_slug question q_type %}",
+				data:{
+					'option':option
+				},
+				dataType:'html',
+				success: OptionSuccess
+    		});
+		}
+</script>

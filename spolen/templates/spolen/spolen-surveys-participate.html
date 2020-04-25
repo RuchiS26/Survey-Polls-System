@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card shadow p-3 mb-5">
+					<div class="card-body">
+						<div id="survey">
+							<h2>{{survey.title}}</h2>
+							<hr>
+							<small class="text-muted">{{survey.description}}</small>
+							<br><br><br>
+								{% for question in questions %}
+									{{question.question}}
+									<br>
+									{% if question.question_type == 'Short Answer' %}
+									<textarea class="form-control" id="{{question.question}}" placeholder="Answer Here" rows="3"></textarea>
+									{% else %}
+										{% for option in options %}
+											{% if option.question is question %}
+											<input type = "radio" id = "{{option.option}}" name = "{{option.question}}" value = "{{option.option}}"><label for = "{{option.option}}">&nbsp;{{option.option}}</label>
+											<br>
+											{% endif %}
+										{% endfor %}
+									{% endif %}
+									<hr>
+								{% endfor %}
+								<input type="submit" name="submit" value="Submit" class="btn btn-success btn-sm mt-1 mb-1" onclick = "ComSurvey()">
+						</div>
+						<div id="complete">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script>
+		function ComSurvey(){
+			var answers = []
+
+			{% for question in questions %}
+			var flag = 1;
+				{% if question.question_type == 'Short Answer' %}
+					var ans = document.getElementById("{{question.question}}").value;
+					console.log(ans);
+					var obj = {'question': "{{question.question}}", 'q_type': "{{question.question_type}}",'answer': ans}; 
+					answers.push(obj);
+				{% else %}
+					{% for option in options %}
+						{% if option.question is question %}
+						if (flag){
+							var ans = $('input[name="{{option.question}}"]:checked').val();
+							var obj = {'question': "{{question.question}}", 'q_type': "{{question.question_type}}",'answer': ans}; 
+							answers.push(obj);
+							flag = 0;
+						} 
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% endfor %}	
+			console.log(answers)
+
+			$.ajax({
+				        url: "{% url 'spolen:spolen-surveys-response' survey.slug %}",
+				        data: {
+				          'answers': JSON.stringify(answers),
+				        },
+				        type: 'POST',
+				        success: logSuccess,
+	      			});
+		}
+
+		function logSuccess(data,textStatus,jqXHR){
+			$('#survey').css('display','none');
+			$('#complete').html(data);
+		}
+
+
+	</script>
+{% endblock %}

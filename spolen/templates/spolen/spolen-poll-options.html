@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card shadow p-3 mb-5">
+					<div class="card-body">
+						<h2>Add Options</h2>
+						<div id="optionSuccess"></div>
+						<hr>
+						<h3>{{poll_title}}</h3>
+						<input type="text" id = "option" class="form-control" placeholder="Your Option" required="True">
+						<hr>
+							<a href = "javascript:AddOption()" id = "option"  class = "btn btn-info btn-sm mt-1 mb-1">Add option</a>
+							<a href = "{% url 'spolen:spolen-preview' obj poll_slug %}" class="btn btn-success btn-sm mt-1 mb-1">Preview Poll</a>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script>
+
+		function AddOption(){
+			var option = $('input').val();
+			$.ajax({
+    			url:"{% url 'spolen:spolen-add-poll-options' poll_slug %}",
+				data:{
+					'option':option
+				},
+				dataType:'html',
+				success: OptionSuccess
+    		});
+		}
+
+		function OptionSuccess(data,textStatus,jqXHR){
+    		$('#optionSuccess').html(data);
+    		document.getElementById("option").value="";
+    	}
+
+	</script>
+{% endblock %}
+

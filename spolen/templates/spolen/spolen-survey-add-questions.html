@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card shadow p-3 mb-5">
+					<div class="card-body">
+						<h2>Add Questions</h2>
+						<div id="QuestionSuccess"></div>
+						<hr>
+						<h3>{{survey_title}}</h3>
+						<div id="gen">
+						<input type="text" id = "question" class="form-control" placeholder="Your Question" required="True">
+						<br>
+						<select class="form-control" id="selType">
+					        <option value = "1" default>Short Answer</option>
+					        <option value = "2">Multiple Choice Opition</option>
+					    </select>
+						</div>
+					    <div id = "mcq" style="display: none;">
+					    	<input type="text" id="optionsform" class="form-control" placeholder="Your Option">
+					    	<br>
+					    	<a href = "javascript:AddOption()" id = "optionbtn"  class = "btn btn-info btn-sm mt-1 mb-1">Add Option</a>
+					    	<a href = "javascript:Done()" id = "donebtn"  class = "btn btn-warning btn-sm mt-1 mb-1">Done</a>
+						</div>
+						<hr> 
+							<a href = "javascript:AddQuestion()" id = "questionbtn"  class = "btn btn-info btn-sm mt-1 mb-1">Add Question</a>
+							<a href = "{% url 'spolen:spolen-preview' obj survey_slug %}" class="btn btn-success btn-sm mt-1 mb-1">Preview Poll</a>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script>
+
+		function AddQuestion(){
+			var question = $('#question').val();
+			var q_type = $('#selType option:selected').text();
+			$.ajax({
+    			url:"{% url 'spolen:spolen-add-survey-questions' survey_slug %}",
+				data:{
+					'question':question,
+					'q_type':q_type
+				},
+				dataType:'html',
+				success: OptionSuccess
+    		});
+
+		}
+
+		function Done(){
+			$("#gen").css("display","block");
+			$("#questionbtn").css("display","inline-block");
+			$("#mcq").css("display", "none");
+			$("#optionsform").prop('required',false);
+		}
+
+		function OptionSuccess(data,textStatus,jqXHR){
+    		$('#QuestionSuccess').html(data);
+    		document.getElementById("question").value="";
+    		document.getElementById("optionsform").value="";
+    	}
+
+	</script>
+{% endblock %}
+

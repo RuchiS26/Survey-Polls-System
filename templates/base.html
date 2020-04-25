@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<!DOCTYPE html>
+<html>
+<head>
+
+	<!--bootstrap4 CSS-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!--bootstrap4 JS-->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<!--fonts-->
+	<link href="https://fonts.googleapis.com/css?family=Fredoka+One|Inter:300&display=swap" rel="stylesheet"> 
+
+	<title>AIT - SPOLEN</title>
+
+</head>
+<style>
+	
+	a{
+		text-decoration: none !important;
+	}
+
+	a:hover{
+		cursor: pointer;
+	}
+
+</style>
+<body>
+	<div class="container-fluid" style="background-color: #292b2c;">
+		<div class="row">
+			<div class="col-md-12" style="margin:6px 6px 7px 6px;">
+			  	<a href="{% url 'spolen:spolen-index' %}">
+			  		<img src="https://zenodo.org/api/files/00000000-0000-0000-0000-000000000000/asian-institute-of-technology/logo.png" width="50" height="50" class="d-inline-block" style="float: center" alt="icon">&nbsp; <font size="3" color="white">Survey and Polls System</font>
+			  	</a>
+			  	<a href="{% url 'spolen:spolen-create-poll' %}" class="btn btn-warning btn-sm mt-2 mb-2" style="float: right;"><img src="{% static 'images/add.svg' %}" style="height: 16px; width: 16px;">Polls</a>
+			  	<a href="{% url 'spolen:spolen-create-survey' %}" class="btn btn-danger btn-sm mt-2 mb-2" style="float: right; margin-right: 3px; "><img src="{% static 'images/add.svg' %}" style="height: 16px; width: 16px;">Survey</a>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class = "container" id = "message">
+		{% if messages %}
+			<br>
+			{% for message in messages %}
+				<div class="alert alert-{{message.tags}}">
+					{{message}}
+				</div>
+				<br><br>
+			{% endfor %}
+		{% endif %}
+	</div>
+	{% block content %}{% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+	//When the page has loaded.
+	$( document ).ready(function(){
+	    $('#message').fadeIn('slow', function(){
+	       $('#message').delay(2000).fadeOut('fast'); 
+	    })
+	});
+</script>
+</body>
+</html>
