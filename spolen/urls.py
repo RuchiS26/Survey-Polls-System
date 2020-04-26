@@ -21,7 +21,7 @@ urlpatterns = [
 	path('preview/<str:ent>/<str:slug>/', views.spolen_preview, name = 'spolen-preview'),
 	path('publish/<str:ent>/<str:slug>/', views.spolen_publish, name = 'spolen-publish'),
 	path('discard/<str:ent>/<str:slug>/', views.spolen_discard, name = 'spolen-discard'),
-	path('analytics/<str:ent>/<str:slug>/', views.spolen_analytics, name = 'spolen-analytics'),
+	path('response/<str:ent>/<str:slug>/', views.spolen_analytics, name = 'spolen-analytics'),
 	path('close/<str:ent>/<str:slug>/', views.spolen_close, name = 'spolen-close'),
 	path('open/<str:ent>/<str:slug>/', views.spolen_open, name = 'spolen-open'),
 	
