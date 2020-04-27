@@ -3,5 +3,3 @@ System which allows the juristic to create surveys/polls to understand people’
 
 
 Here is the system which explains about how jurististics know the level of satisfaction through survey.
-voting
-
